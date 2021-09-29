@@ -27,6 +27,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# MONI Credential
+MONI_API_KEY = 'ZGpzOTAzaWZuc2Zpb25kZnNubm5u'
+
 
 # Application definition
 
@@ -39,7 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'loan',
-    'user',
+    'users',
 ]
 
 MIDDLEWARE = [
