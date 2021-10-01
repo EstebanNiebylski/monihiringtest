@@ -58,7 +58,7 @@ window.addEventListener("load", function () {
     let paramsToSend = {
       "username": params.user,
       "password": params.password
-    }
+    }    
 
     await fetch('http://127.0.0.1:8000/auth/login/', {
       headers: {
@@ -72,7 +72,11 @@ window.addEventListener("load", function () {
       localStorage.setItem('authtoken', authtoken);      
       if (response.ok) {             
         window.location.href = "http://127.0.0.1:8000/web/admin";        
+      } else {
+        alert("Invalid username or password.");
       }
+    }).catch( function(error){
+      console.log("ERROR", error);
     });        
   });  
 });

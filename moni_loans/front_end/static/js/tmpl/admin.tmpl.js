@@ -29,12 +29,12 @@ async function deleteLoan(loanId) {
     }).then(function (response) {
         if (response.ok) {
             alert("Pedido de prestamo eliminado correctamente.");
+            // Refresh page
+            location.reload();
         } else {
             alert("Error al intentar eliminar pedido de prestamo.")
-        };
-        return response.json();
-    });
-    // Refresh page
+        };        
+    });    
 }
 
 async function updateLoan(loanId) {
@@ -104,6 +104,7 @@ document.addEventListener("DOMContentLoaded", async function (event) {
         }).then( async function(response) {                        
             if (response.ok) {
                 alert("Pedido de prestamo modificado correctamente.");
+                location.reload();
             } else {
                 // Params error
                 let errorData = await response.json();  
