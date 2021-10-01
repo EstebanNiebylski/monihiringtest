@@ -31,7 +31,7 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 # MONI Credential
-MONI_API_KEY = 'ZGpzOTAzaWZuc2Zpb25kZnNubm5u'
+MONI_API_KEY = 'MoniSecretApiKey'
 
 
 # Application definition
