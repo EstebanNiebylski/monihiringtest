@@ -3,10 +3,11 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from loan.models import Loan
-from loan.api.serializers import LoanInfoSerializer, LoanCreatorSerializer
+from loan.api.serializers import LoanInfoSerializer, LoanCreatorSerializer, LoanModifySerializer
 from users.api.serializers import RequesterSerializer
 from users.models import Requester
 from moni_loans.settings import MONI_API_KEY
+from loan.api.loanpermissions import IsadminOrPostLoanPermission
 
 
 def loan_validator(dni):
@@ -35,9 +36,14 @@ def loan_validator(dni):
     return 'OK'
 
 
-class LoanApiView(APIView):
-    
-    def get(self, request):
+class LoanApiView(APIView):           
+    permission_classes = [IsadminOrPostLoanPermission]
+
+    def get(self, request):        
+        """
+        Get all loan objects
+        Only for the admin
+        """                                
         all_loans = Loan.objects.all()
         loan_serializer = LoanInfoSerializer(all_loans, many=True)                  
         return Response(data=loan_serializer.data)
@@ -57,30 +63,82 @@ class LoanApiView(APIView):
                 "gender": Enum('M', 'F', 'X')
             }
         }
-        :return: loan id and status
+        :return: requester id, loan id and status
         """        
-        # If user not exist, create it first and then the loan        
+        # If user not exist, create it first and then the loan      
         requester_info = request.data.get('requester_info', None)
-        requester_id = None
+        requester = None
         if requester_info is not None: 
-            try:
-                requester_id = Requester.objects.get(dni=request.data['requester_info']['dni'])
+            try:               
+                requester = Requester.objects.get(dni=request.data['requester_info']['dni'])
             except Requester.DoesNotExist:                
                 # Create user
                 requester_serializer = RequesterSerializer(data=requester_info)
                 if requester_serializer.is_valid():
-                    requester_id = requester_serializer.save()                    
+                    requester = requester_serializer.save()                    
                 else:
                     return Response(requester_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response({"Missing param": "requester_info"}, status=status.HTTP_400_BAD_REQUEST)
+
         data = request.data                
-        data['requester'] = str(requester_id.id)
+        data['requester'] = str(requester.id)
         loan_serializer = LoanCreatorSerializer(data=data)  
         dni = request.data['requester_info']['dni']                                                                                 
         request.data['state'] = loan_validator(dni)
         if loan_serializer.is_valid():                   
             new_loan = loan_serializer.save() 
-            return Response(data=loan_serializer.data, status=status.HTTP_201_CREATED)            
+            reponse_data = {
+                "message": "Loan approved",
+                "loan": loan_serializer.data
+            }
+            return Response(data=reponse_data, status=status.HTTP_201_CREATED)            
         else:
-            return Response(loan_serializer.errors, status=status.HTTP_400_BAD_REQUEST)            
+            return Response(loan_serializer.errors, status=status.HTTP_400_BAD_REQUEST)   
+
+class LoanDetail(APIView):
+    """    
+    Get, update or delete a loan by id
+    Methods only for the admin
+    """    
+    permission_classes = [IsadminOrPostLoanPermission]
+
+    def get_object(self, id):
+        try:
+            return Loan.objects.get(id=id)
+        except Loan.DoesNotExist:
+            return None
+
+    def get(self, request, pk):
+        # Return a single instance of a loan
+        loan = self.get_object(pk)
+        loan_serializer =  LoanInfoSerializer(loan)
+        return Response(loan_serializer.data)
+
+    def delete(self, request, pk=None):        
+        loan = self.get_object(pk)
+        if loan is not None:
+            loan.delete()
+            return Response({"Message": "Loan request deleted"}, status=status.HTTP_204_NO_CONTENT)          
+        return Response({"Message": "There is no loan request with id: " + str(pk)},status=status.HTTP_400_BAD_REQUEST)
+
+    def put(self, request, pk=None):        
+        """
+        Update loan state and amount
+        request.data expected:
+        {            
+            "id": <Int>,
+            "state": Enum('OK', 'NO'),
+            "amount": <Float>,                
+        }
+        :return: modified loan state and amount
+        """
+        loan = self.get_object(pk)
+        if loan is not None:
+            loan_serializer = LoanModifySerializer(loan, data=request.data) 
+            if loan_serializer.is_valid():
+                loan_serializer.save()
+                return Response(data=loan_serializer.data, status=status.HTTP_200_OK)
+            return Response(loan_serializer.errors, status=status.HTTP_400_BAD_REQUEST) 
+
+        return Response({"Missing param": "pk"}, status=status.HTTP_400_BAD_REQUEST) 

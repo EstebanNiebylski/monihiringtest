@@ -1,0 +1,93 @@
+<!DOCTYPE>
+{% load static %}
+<html lang="en">
+    <head>
+        <!-- Include Bootstrap -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">                        
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+        <link href="{% static "css/index.css" %}" rel="stylesheet">
+        <script type="text/javascript" src="{% static "js/tmpl/index.tmpl.js" %}"></script>    
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    </head>
+    <body>
+        <header class="header-moni">
+            <div class="logo-moni">
+                <img src="https://moni.com.ar/static/img/moni-logo-primary.svg"></img>
+            </div>
+            <div class="navbar-moni">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Ingresar
+                </button>
+            </div>
+        </header>
+        <div class="body-moni">
+            <div class="loan-form-moni">
+                <div class="loan-form-tittle-moni">
+                    <h4>Solicitar prestamo</h4>
+                </div>
+                <form id="loan-form">
+                    <div class="mb-3">
+                        <label for="amount-input" class="form-label">Monto</label>
+                        <input class="form-control" name="amount" id="amount-input"></input>
+                    </div>
+                    <div class="mb-3">
+                        <label for="dni-input" class="form-label">DNI:</label>
+                        <input type="text" name="dni" class="form-control" id="dni-imput" placeholder="">
+                    </div>
+                    <div class="mb-3">
+                        <label for="lastname-input" class="form-label">Apellido</label>
+                        <input class="form-control" name="lastname" id="apellido-input"></input>
+                    </div>
+                    <div class="mb-3">
+                        <label for="name-input" class="form-label">Nombre</label>
+                        <input class="form-control" name="name" id="nombre-input"></input>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email-input" class="form-label">Email</label>
+                        <input class="form-control" name="email" id="email-input"></input>
+                    </div>
+                    <div class="mb-3">
+                        <label for="gender-input" class="form-label">Genero</label>
+                        <select name="gender" class="form-control">
+                            <option value="F">Femenino</option>
+                            <option value="M">Masculino</option>
+                            <option value="X">No especificado</option>
+                        </select>
+                    </div>
+                    <div class="button-container">
+                        <button type="submit" class="btn btn-success">Solicitar prestamo</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+        <!--Login modal-->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <form id="login-form">
+
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Ingresar</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="user-input" class="form-label">Usuario</label>
+                                <input class="form-control" name="user" id="user-input"></input>
+                            </div>
+                            <div class="mb-3">
+                                <label for="password-imput" class="form-label">Contraseña:</label>
+                                <input type="password" name="password" class="form-control" id="password-imput" placeholder="">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Login</button>
+                        </div>
+                </div>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>

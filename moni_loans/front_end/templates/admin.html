@@ -1,0 +1,66 @@
+<!DOCTYPE> 
+{% load static %}
+<html lang="en">
+    <head>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+            integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+            crossorigin="anonymous"></script>
+        <script type="text/javascript" src="{% static "js/tmpl/admin.tmpl.js" %}"></script>     
+        <link href="{% static "css/index.css" %}" rel="stylesheet">     
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    </head>
+
+    <body>
+    <header class="header-moni">
+            <div class="logo-moni">
+                <img src="https://moni.com.ar/static/img/moni-logo-primary.svg"></img>
+            </div>
+            <div class="title-tab-loan">
+                <h4>Listado de pedidos de prestamo</h4>
+            </div>
+        </header>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>DNI</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Genero</th>
+                <th>Monto</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody id="tbody">
+        </tbody>
+    </table>
+    <!--Update Modal-->
+    <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modificar pedido de prestamo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="update-form">
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Nuevo estado:</label>
+                        <input type="text" class="form-control" id="new-loan-state" placeholder="'OK' o 'NO'">
+                        <label for="message-text" class="col-form-label">Monto:</label>
+                        <input type="number" class="form-control" id="new-amount"></input>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button id="btn-update" type="update" class="btn btn-primary">Actualizar</button>
+            </div>
+            </div>
+        </div>
+    </div>
+    </body>
+</html>

@@ -7,6 +7,7 @@ from users.api.serializers import RequesterSerializer
 
 class RequesterApiView(APIView):    
     """
+    Get or create a requester
     """
     def get(self, request):    
         requester = Requester.objects.all()

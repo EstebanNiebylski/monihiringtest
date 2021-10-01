@@ -9,13 +9,15 @@ class RequesterSerializer(serializers.ModelSerializer):
         fields = ['email', 'dni', 'lastname', 'name', 'gender']
 
     def validate(self, data):        
-        print("::::DATAREQUESTER:::_")
-        print(data)
         # Custom validator
 
-        # admin name is for admin user        
+        # admin name it's only for admin user        
         if data['name'] == 'admin' or data['lastname'] == 'admin':
-            raise serializers.ValidationError({"admin": "is not a valid name."})        
-        # Validate email        
+            raise serializers.ValidationError({"admin": "is not a valid name."})                  
+                
+        # Validate only integers in dni
+        if 'dni' in data:
+            if not data['dni'].isdigit():
+                raise serializers.ValidationError({"dni": "is not a valid. Positive integer only"})            
                 
         return data    

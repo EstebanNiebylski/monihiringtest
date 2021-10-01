@@ -10,7 +10,7 @@ class LoanInfoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Loan
-        fields = ['state', 'amount', 'requester']  
+        fields = ['id', 'state', 'amount', 'requester']  
 
 class LoanCreatorSerializer(serializers.ModelSerializer):    
     # Serializer for create a new loan        
@@ -25,8 +25,22 @@ class LoanCreatorSerializer(serializers.ModelSerializer):
         # Validate amount > 0         
         if 'amount' in data:
             if data['amount'] < 0:
-                serializers.ValidationError('"amount" need to be a positive float.')
-        else:
-            raise serializers.ValidationError('"amount" is missing.')
+                raise serializers.ValidationError('"amount" need to be a positive float.')
+
+        return data
+
+class LoanModifySerializer(serializers.ModelSerializer):  
+    # Serializer for delete and update a loan
+    class Meta:
+        model = Loan
+        fields = ['amount', 'state']  
+    
+    def validate(self, data):
+        # Custom validator
+
+        # Validate amount > 0         
+        if 'amount' in data:                        
+            if data['amount'] < 0:
+                raise serializers.ValidationError('"amount" need to be a positive float.')
 
         return data
