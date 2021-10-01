@@ -8,13 +8,13 @@ async function postLoan(loanInfo) {
   }).then(function(response){
     return response.json();
   });
-
   return response;
 };
 
 window.addEventListener("load", function () {
   // Loan request form
-  document.getElementById('loan-form').addEventListener('submit', () => {    
+  document.getElementById('loan-form').addEventListener('submit', (e) => {
+    e.preventDefault()
     let FormName = document.getElementById('loan-form')
 
     let params = {};
@@ -33,11 +33,12 @@ window.addEventListener("load", function () {
         "gender": params.gender
       }
     })    
-    postLoan(loanRequestData).then(function (response){            
-      if (response.state == 'OK') {
-        alert("Su solicitud de prestamo por " + response.amount + " fue aprobada.")
+    postLoan(loanRequestData).then(function (response){  
+      console.log("response", response);
+      if (response.loan.state == 'OK') {
+        alert("Su solicitud de prestamo por " + response.loan.amount + " fue aprobada.")
       } else {
-        alert("Su solicitud de prestamo por " + response.amount + " fue rechazada.")
+        alert("Su solicitud de prestamo por " + response.loan.amount + " fue rechazada.")
       }
     });    
 
@@ -67,7 +68,8 @@ window.addEventListener("load", function () {
       body: JSON.stringify(paramsToSend)
     }).then( async function (response){
       let data = await response.json() 
-      const authtoken = data.token;            
+      const authtoken = data.token;     
+      localStorage.setItem('authtoken', authtoken);      
       if (response.ok) {             
         window.location.href = "http://127.0.0.1:8000/web/admin";        
       }

@@ -1,0 +1,213 @@
+{
+	"info": {
+		"_postman_id": "ef3be695-0a8d-46ae-aa7e-821620db5231",
+		"name": "Moni Loans",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "admin",
+									"description": "Username admin: \"admin\"",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "Lifeisagame1!",
+									"description": "password admin: \"Lifeisagame1!\"",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{localhost}}/auth/login/",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"auth",
+								"login",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Loans",
+			"item": [
+				{
+					"name": "Create Loan",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"amount\":  1500.10,\n    \"requester_info\": {\n        \"email\": \"someemail@email.com\",\n        \"dni\": \"12345678\",\n        \"lastname\": \"Apellido\",\n        \"name\": \"Nombre\",\n        \"gender\": \"X\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localhost}}/api/loan/",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"api",
+								"loan",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all loans",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "{{localhost}}/api/loan/",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"api",
+								"loan",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Loan",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "state",
+									"value": "OK",
+									"description": "ENUM('OK', 'NO') New state for the loan",
+									"type": "text"
+								},
+								{
+									"key": "amount",
+									"value": "50002",
+									"description": "Positive float. New amount",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{localhost}}/api/loan/1/",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"api",
+								"loan",
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete loan",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "{{localhost}}/api/loan/1/",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"api",
+								"loan",
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get single Loan",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{localhost}}/api/loan/1",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"api",
+								"loan",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
