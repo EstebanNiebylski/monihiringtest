@@ -4,7 +4,7 @@ Use python 3.8.10
 
 1) Clone the repository
 2) Requirements: Go to the root of the project and run: pip install -r requirements.txt
-3) In moni_loans/settings.py: Add django secret key (SECRET_KEY line 26) and moni credential (MONI_API_KEY line 34)
+3) In moni_loans/settings.py: Add moni credential (MONI_API_KEY line 34)
 4) Models: Go to /moni_loans/ and excecute in the console: python manage.py migrate
 5) Admin user: 
   You can create it, run: python manage.py createsuperuser
